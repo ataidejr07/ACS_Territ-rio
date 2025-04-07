@@ -1,115 +1,114 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
 st.set_page_config(page_title="ACS Micro Área", layout="wide")
 
-# Estilo e botão hambúrguer com JS robusto
+# CSS customizado para cabeçalho, rodapé e botões
 st.markdown("""
     <style>
+        /* Cabeçalho azul fixo */
         .header {
-            background-color: #0056b3;
-            color: white;
-            padding: 12px 20px;
-            font-size: 22px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
             position: fixed;
             top: 0;
+            left: 0;
             width: 100%;
+            background-color: #1f77b4;
+            color: white;
+            padding: 10px 16px;
+            font-size: 20px;
             z-index: 1000;
         }
-        .main {
-            margin-top: 80px;
-            margin-bottom: 60px;
-        }
+
+        /* Rodapé azul fixo */
         .footer {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            background-color: #0056b3;
+            background-color: #1f77b4;
             color: white;
             text-align: center;
-            padding: 10px;
+            padding: 8px;
             font-size: 14px;
-            z-index: 9999;
+            z-index: 1000;
         }
-        .botao {
+
+        /* Espaçamento para conteúdo não ficar atrás do header/rodapé */
+        .main {
+            margin-top: 60px;
+            margin-bottom: 50px;
+        }
+
+        /* Estilo dos botões principais */
+        .button {
             background-color: white;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 10px;
-            display: block;
-            text-decoration: none !important;
-            color: black !important;
+            color: black;
+            padding: 12px;
+            border-radius: 15px;
+            font-weight: bold;
             font-size: 18px;
-            font-weight: bold;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-        }
-        section[data-testid="stSidebar"] {
-            background-color: #1e1e1e;
-        }
-        section[data-testid="stSidebar"] .block-container {
-            padding: 1rem;
-        }
-        section[data-testid="stSidebar"] a {
-            color: white;
-            font-weight: bold;
-        }
-        #openSidebar {
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            background-color: transparent;
+            text-align: left;
+            width: 100%;
             border: none;
-            color: white;
-            font-size: 26px;
-            z-index: 1001;
+            margin-bottom: 10px;
         }
     </style>
+""", unsafe_allow_html=True)
 
+# Cabeçalho fixo
+st.markdown('<div class="header">ACS Micro Área</div>', unsafe_allow_html=True)
+
+# Botão hambúrguer funcional no canto superior esquerdo
+components.html("""
+    <div style="position: fixed; top: 10px; left: 10px; z-index: 1001;">
+        <button onclick="openSidebar()" style="
+            background-color: transparent;
+            border: none;
+            font-size: 28px;
+            color: white;
+            cursor: pointer;
+        ">☰</button>
+    </div>
     <script>
-        const abrirMenu = () => {
+        function openSidebar() {
             const iframe = window.parent.document;
-            const botoes = iframe.querySelectorAll('button');
-            botoes.forEach(btn => {
-                if (btn.innerHTML.includes("☰") || btn.getAttribute("aria-label") === "menu") {
+            const buttons = iframe.querySelectorAll('button');
+            buttons.forEach(btn => {
+                if (btn.innerText.includes('☰') || btn.getAttribute('aria-label') === 'menu') {
                     btn.click();
                 }
             });
-        };
+        }
     </script>
-""", unsafe_allow_html=True)
+""", height=0)
 
-# Botão com chamada JavaScript
-st.markdown('<button id="openSidebar" onclick="abrirMenu()">☰</button>', unsafe_allow_html=True)
-
-# Cabeçalho
-st.markdown('<div class="header">ACS Micro Área</div>', unsafe_allow_html=True)
+# Conteúdo principal com espaçamento
 st.markdown('<div class="main">', unsafe_allow_html=True)
 
-# Conteúdo
 st.markdown("## Bem-vindo, Ataide!")
 st.markdown("### Cadastros")
 
-def botao_link(nome, emoji, destino):
-    st.markdown(f'<a href="/{destino}" class="botao">{emoji} {nome}</a>', unsafe_allow_html=True)
+# Botões para as páginas
+col1, col2 = st.columns(2)
 
-col1, col2, col3 = st.columns([1, 6, 1])
+with col1:
+    if st.button("🏠 Domicílios", use_container_width=True):
+        st.switch_page("pages/Domicílios.py")
+
+    if st.button("👨‍👩‍👧 Famílias", use_container_width=True):
+        st.switch_page("pages/Famílias.py")
+
+    if st.button("🧒 Cidadãos", use_container_width=True):
+        st.switch_page("pages/Cidadãos.py")
+
 with col2:
-    botao_link("Domicílios", "🏠", "Domicílios")
-    botao_link("Famílias", "👨‍👩‍👧", "Famílias")
-    botao_link("Cidadãos", "🧑‍⚕️", "Cidadãos")
+    if st.button("📊 Relatórios", use_container_width=True):
+        st.switch_page("pages/Relatórios.py")
 
-st.markdown("### Análises e Relatórios")
-with col2:
-    botao_link("Relatórios", "📊", "Relatórios")
-    botao_link("Resumo de Produção", "✅", "Resumo de Produção")
-    botao_link("Nascimentos e Óbitos", "👶", "Nascimentos e Óbitos")
-    botao_link("Cartões Espelho", "🪪", "Cartões Espelho")
-    botao_link("Laudos e Receitas", "📄", "Laudos e Receitas")
+    if st.button("✅ Resumo de Produção", use_container_width=True):
+        st.switch_page("pages/Resumo de Produção.py")
 
-st.markdown("</div>", unsafe_allow_html=True)
+st.markdown('</div>', unsafe_allow_html=True)
 
-# Rodapé
-st.markdown('<div class="footer">Desenvolvido para uso profissional do ACS</div>', unsafe_allow_html=True)
+# Rodapé fixo
+st.markdown('<div class="footer">Desenvolvido para uso profissional</div>', unsafe_allow_html=True)
