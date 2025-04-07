@@ -2,14 +2,14 @@ import streamlit as st
 
 st.set_page_config(page_title="ACS Micro Área", layout="wide")
 
-# Estilo e JS para botão hambúrguer
+# Estilo e botão hambúrguer funcional com JavaScript
 st.markdown("""
     <style>
         .header {
             background-color: #0056b3;
             color: white;
-            padding: 10px 20px;
-            font-size: 24px;
+            padding: 12px 20px;
+            font-size: 22px;
             font-weight: bold;
             display: flex;
             align-items: center;
@@ -18,7 +18,10 @@ st.markdown("""
             width: 100%;
             z-index: 1000;
         }
-        .main {margin-top: 70px;}
+        .main {
+            margin-top: 80px;
+            margin-bottom: 60px;
+        }
         .footer {
             position: fixed;
             bottom: 0;
@@ -34,13 +37,14 @@ st.markdown("""
         .botao {
             background-color: white;
             padding: 15px;
-            border-radius: 10px;
+            border-radius: 12px;
             margin-bottom: 10px;
             display: block;
             text-decoration: none !important;
             color: black !important;
             font-size: 18px;
             font-weight: bold;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
         }
         section[data-testid="stSidebar"] {
             background-color: #1e1e1e;
@@ -54,8 +58,8 @@ st.markdown("""
         }
         #openSidebar {
             position: fixed;
-            top: 12px;
-            left: 15px;
+            top: 10px;
+            left: 10px;
             background-color: transparent;
             border: none;
             color: white;
@@ -76,12 +80,12 @@ st.markdown("""
 
 st.markdown('<button id="openSidebar" onclick="abrirMenuLateral()">☰</button>', unsafe_allow_html=True)
 st.markdown('<div class="header">ACS Micro Área</div>', unsafe_allow_html=True)
-
 st.markdown('<div class="main">', unsafe_allow_html=True)
+
 st.markdown("## Bem-vindo, Ataide!")
 st.markdown("### Cadastros")
 
-# Botões com links manuais
+# Função para criar botões com links manuais
 def botao_link(nome, emoji, destino):
     st.markdown(f'<a href="/{destino}" class="botao">{emoji} {nome}</a>', unsafe_allow_html=True)
 
