@@ -1,159 +1,114 @@
 import streamlit as st
 
-st.set_page_config(page_title="ACS Micro Área", layout="wide")
+# Configuração da página
+st.set_page_config(
+    page_title="ACS Micro Área",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
-# CSS atualizado
+# Estilos personalizados
 st.markdown("""
-<style>
-    .main {
-        padding: 0 !important;
-    }
-
-    /* Oculta o botão nativo do menu lateral do Streamlit */
-    [data-testid="collapsedControl"] {
-        display: none !important;
-    }
-
-    /* Cabeçalho esticado */
-    .header {
-        width: 100%;
-        background-color: #0056b3;
-        color: white;
-        padding: 12px 16px;
-        font-size: 22px;
-        font-weight: bold;
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        border-bottom: 2px solid #003b80;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-        border-radius: 0;
-        margin: 0;
-    }
-
-    /* Botão de menu à esquerda do título */
-    .menu-button {
-        background-color: #003d80;
-        color: white;
-        border: none;
-        padding: 6px 12px;
-        font-size: 20px;
-        border-radius: 8px;
-        cursor: pointer;
-        margin-right: 14px;
-        box-shadow: 2px 2px 6px rgba(0,0,0,0.4);
-    }
-
-    .content {
-        margin-top: 20px;
-        margin-bottom: 60px;
-        padding: 0 16px;
-    }
-
-    .footer {
-        background-color: #0056b3;
-        color: white;
-        text-align: center;
-        padding: 10px;
-        font-size: 14px;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        z-index: 9999;
-    }
-
-    .custom-button {
-        display: block;
-        width: 100%;
-        padding: 14px 20px;
-        margin: 8px 0;
-        font-size: 18px;
-        font-weight: bold;
-        text-align: left;
-        background-color: #ffffff;
-        color: #000000;
-        border: 2px solid #ccc;
-        border-radius: 10px;
-        transition: 0.3s;
-    }
-
-    .custom-button:hover {
-        background-color: #f0f0f0;
-    }
-
-    .sidebar-container {
-        position: fixed;
-        top: 60px;
-        left: 0;
-        width: 250px;
-        background-color: #1e1e1e;
-        color: white;
-        padding: 15px;
-        border-right: 2px solid #444;
-        z-index: 9998;
-        display: none;
-    }
-
-    .menu-visible {
-        display: block !important;
-    }
-
-    .sidebar-button {
-        background: none;
-        border: none;
-        color: white;
-        text-align: left;
-        padding: 10px 5px;
-        font-size: 16px;
-        cursor: pointer;
-        width: 100%;
-    }
-
-    .sidebar-button:hover {
-        background-color: #333;
-    }
-
-    @media (max-width: 768px) {
-        .custom-button {
-            font-size: 16px;
-            padding: 12px;
+    <style>
+        /* Remover margem padrão do Streamlit no topo */
+        .block-container {
+            padding-top: 0rem;
         }
 
-        .header {
-            font-size: 18px;
+        /* Cabeçalho fixo no topo com botão hambúrguer */
+        .custom-header {
+            background-color: #1976D2;
+            padding: 0.7rem 1rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            z-index: 100;
+            width: 100%;
         }
-    }
-</style>
+
+        .custom-header h1 {
+            font-size: 1.4rem;
+            margin: 0;
+            padding-left: 0.8rem;
+        }
+
+        .menu-button {
+            background-color: #1565C0;
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.3rem 0.6rem;
+            border-radius: 5px;
+            box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .menu-button:hover {
+            background-color: #0D47A1;
+        }
+
+        /* Estilo dos botões principais */
+        .main-button {
+            display: inline-block;
+            background-color: #2196F3;
+            color: white;
+            padding: 0.9rem 1.5rem;
+            margin: 0.5rem;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1rem;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        .main-button:hover {
+            background-color: #1976D2;
+            text-decoration: none;
+        }
+
+        /* Rodapé fixo */
+        .footer {
+            background-color: #1976D2;
+            padding: 0.6rem;
+            color: white;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            z-index: 100;
+        }
+    </style>
 """, unsafe_allow_html=True)
 
-# Cabeçalho com botão do menu na esquerda
+# Cabeçalho com botão hambúrguer funcional
 st.markdown("""
-<div class="header">
-    <button class="menu-button" onclick="document.querySelector('.sidebar-container').classList.toggle('menu-visible')">☰</button>
-    <span>ACS Micro Área</span>
-</div>
-<div class="sidebar-container">
-    <button class="sidebar-button">🗂️ Cartões Espelho</button>
-    <button class="sidebar-button">📄 Laudos e Receitas</button>
-</div>
+    <div class="custom-header">
+        <button class="menu-button" onclick="document.querySelector('button[kind=headerNav]').click();">
+            <span>&#9776;</span>
+        </button>
+        <h1>ACS Micro Área</h1>
+    </div>
 """, unsafe_allow_html=True)
 
-# Conteúdo principal
-st.markdown('<div class="content">', unsafe_allow_html=True)
+# Espaçamento após o cabeçalho
+st.markdown("<br><br>", unsafe_allow_html=True)
 
-st.markdown("### Bem-vindo, Ataide!")
-st.markdown("#### Cadastros")
-st.markdown('<button class="custom-button">🏡 Domicílios</button>', unsafe_allow_html=True)
-st.markdown('<button class="custom-button">👨‍👩‍👧‍👦 Famílias</button>', unsafe_allow_html=True)
-st.markdown('<button class="custom-button">🧑 Cidadãos</button>', unsafe_allow_html=True)
+# Botões principais da página inicial
+col1, col2, col3 = st.columns([1, 1, 1])
 
-st.markdown("#### Análises e Relatórios")
-st.markdown('<button class="custom-button">📊 Relatórios</button>', unsafe_allow_html=True)
-st.markdown('<button class="custom-button">📈 Resumo de Produção</button>', unsafe_allow_html=True)
-st.markdown('<button class="custom-button">👶⚰️ Nascimentos e Óbitos</button>', unsafe_allow_html=True)
+with col1:
+    st.markdown('<a href="/Domicílios" class="main-button">Domicílios</a>', unsafe_allow_html=True)
+    st.markdown('<a href="/Famílias" class="main-button">Famílias</a>', unsafe_allow_html=True)
+    st.markdown('<a href="/Cidadãos" class="main-button">Cidadãos</a>', unsafe_allow_html=True)
 
-st.markdown('</div>', unsafe_allow_html=True)
+with col2:
+    st.markdown('<a href="/Relatórios" class="main-button">Relatórios</a>', unsafe_allow_html=True)
+    st.markdown('<a href="/Resumo de Produção" class="main-button">Resumo de Produção</a>', unsafe_allow_html=True)
 
-# Rodapé fixo
-st.markdown('<div class="footer">Desenvolvido para ACS</div>', unsafe_allow_html=True)
+with col3:
+    st.markdown('<a href="/Nascimentos e Óbitos" class="main-button">Nascimentos e Óbitos</a>', unsafe_allow_html=True)
+    st.markdown('<a href="/Cartões Espelho" class="main-button">Cartões Espelho</a>', unsafe_allow_html=True)
+    st.markdown('<a href="/Laudos e Receitas" class="main-button">Laudos e Receitas</a>', unsafe_allow_html=True)
+
+# Rodapé
+st.markdown('<div class="footer">Desenvolvido para uso do ACS</div>', unsafe_allow_html=True)
