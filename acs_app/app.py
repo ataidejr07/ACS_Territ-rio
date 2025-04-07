@@ -1,158 +1,127 @@
 import streamlit as st
+from streamlit_extras.switch_page_button import switch_page
 
-# === Oculta o menu padrão e o rodapé do Streamlit ===
-hide_st_style = """
-    <style>
-    #MainMenu, footer {visibility: hidden;}
-    header {visibility: hidden;}
-    </style>
-"""
-st.markdown(hide_st_style, unsafe_allow_html=True)
+st.set_page_config(page_title="ACS Micro Área", layout="wide")
 
-# === Estilos personalizados ===
+# Estilo e JS para botão hambúrguer
 st.markdown("""
     <style>
-        /* Cabeçalho fixo azul */
-        .custom-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
+        /* Header fixo */
+        .header {
             background-color: #0056b3;
-            padding: 0.8rem 1rem;
-            z-index: 100;
+            color: white;
+            padding: 10px 20px;
+            font-size: 24px;
+            font-weight: bold;
             display: flex;
             align-items: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-        }
-
-        .custom-header h1 {
-            color: white;
-            font-size: 1.4rem;
-            margin-left: 3rem;
-        }
-
-        /* Ícone do menu */
-        .menu-button {
-            background-color: #0056b3;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            margin-right: 1rem;
-            position: absolute;
-            left: 1rem;
-        }
-
-        /* Estilo do menu lateral */
-        .sidebar-menu {
             position: fixed;
-            top: 3.5rem;
-            left: 0;
-            width: 220px;
-            background-color: #1a1a1a;
-            padding: 1rem;
-            box-shadow: 4px 0 6px rgba(0,0,0,0.3);
-            z-index: 99;
-            display: none;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
         }
 
-        .sidebar-menu.show {
-            display: block;
-        }
+        /* Espaço abaixo do cabeçalho fixo */
+        .main {margin-top: 70px;}
 
-        .sidebar-menu a {
-            display: block;
-            color: white;
-            text-decoration: none;
-            margin-bottom: 1rem;
-            font-size: 1rem;
-        }
-
-        /* Espaço para o conteúdo abaixo do cabeçalho */
-        .main-content {
-            margin-top: 5rem;
-        }
-
-        /* Rodapé fixo azul */
-        .custom-footer {
+        /* Rodapé fixo */
+        .footer {
             position: fixed;
             bottom: 0;
             left: 0;
-            width: 100vw;
+            width: 100%;
             background-color: #0056b3;
             color: white;
             text-align: center;
-            padding: 0.6rem;
-            font-size: 0.9rem;
-            z-index: 100;
+            padding: 10px;
+            font-size: 14px;
+            z-index: 9999;
         }
 
-        /* Botões das seções */
-        .botao-pagina {
-            display: block;
-            width: 100%;
+        /* Estilo dos botões */
+        .botao {
             background-color: white;
-            color: black;
-            padding: 0.8rem;
-            margin: 0.5rem 0;
+            padding: 15px;
             border-radius: 10px;
-            font-size: 1.1rem;
-            text-align: left;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+            margin-bottom: 10px;
+            display: block;
+            text-decoration: none !important;
+            color: black !important;
+            font-size: 18px;
+            font-weight: bold;
         }
 
-        .secao-titulo {
-            font-size: 1.3rem;
-            margin-top: 2rem;
+        /* Menu lateral */
+        section[data-testid="stSidebar"] {
+            background-color: #1e1e1e;
+        }
+
+        section[data-testid="stSidebar"] .block-container {
+            padding: 1rem;
+        }
+
+        section[data-testid="stSidebar"] a {
             color: white;
+            font-weight: bold;
+        }
+
+        /* Botão menu flutuante */
+        #openSidebar {
+            position: fixed;
+            top: 12px;
+            left: 15px;
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-size: 26px;
+            z-index: 1001;
         }
     </style>
 
     <script>
-        function toggleMenu() {
-            var menu = document.getElementById("sidebar-menu");
-            if (menu.classList.contains("show")) {
-                menu.classList.remove("show");
-            } else {
-                menu.classList.add("show");
+        // Função para clicar no ícone do menu da Streamlit
+        function abrirMenuLateral() {
+            let menuButton = window.parent.document.querySelector('button[kind="header"]');
+            if (menuButton) {
+                menuButton.click();
             }
         }
     </script>
-
-    <!-- Cabeçalho -->
-    <div class="custom-header">
-        <button class="menu-button" onclick="toggleMenu()">☰</button>
-        <h1>ACS Micro Área</h1>
-    </div>
-
-    <!-- Menu Lateral -->
-    <div class="sidebar-menu" id="sidebar-menu">
-        <a href="/Cartões%20Espelho">Cartões Espelho</a>
-        <a href="/Laudos%20e%20Receitas">Laudos e Receitas</a>
-    </div>
-
-    <!-- Espaço principal -->
-    <div class="main-content">
 """, unsafe_allow_html=True)
 
-# === Conteúdo da Página ===
+# Botão hamburguer funcional
+st.markdown('<button id="openSidebar" onclick="abrirMenuLateral()">☰</button>', unsafe_allow_html=True)
+
+# Cabeçalho fixo
+st.markdown('<div class="header">ACS Micro Área</div>', unsafe_allow_html=True)
+
+# Conteúdo principal
+st.markdown('<div class="main">', unsafe_allow_html=True)
 st.markdown("## Bem-vindo, Ataide!")
 st.markdown("### Cadastros")
-st.markdown('<a href="/Domicílios" class="botao-pagina">🏡 Domicílios</a>', unsafe_allow_html=True)
-st.markdown('<a href="/Famílias" class="botao-pagina">👨‍👩‍👧 Famílias</a>', unsafe_allow_html=True)
-st.markdown('<a href="/Cidadãos" class="botao-pagina">🧑 Cidadãos</a>', unsafe_allow_html=True)
+
+col1, col2, col3 = st.columns([1, 6, 1])
+with col2:
+    if st.button("🏠 Domicílios"):
+        switch_page("Domicílios")
+    if st.button("👨‍👩‍👧 Famílias"):
+        switch_page("Famílias")
+    if st.button("🧑‍⚕️ Cidadãos"):
+        switch_page("Cidadãos")
 
 st.markdown("### Análises e Relatórios")
-st.markdown('<a href="/Relatórios" class="botao-pagina">📊 Relatórios</a>', unsafe_allow_html=True)
-st.markdown('<a href="/Resumo%20de%20Produção" class="botao-pagina">📈 Resumo de Produção</a>', unsafe_allow_html=True)
-st.markdown('<a href="/Nascimentos%20e%20Óbitos" class="botao-pagina">👶⚰️ Nascimentos e Óbitos</a>', unsafe_allow_html=True)
+with col2:
+    if st.button("📊 Relatórios"):
+        switch_page("Relatórios")
+    if st.button("✅ Resumo de Produção"):
+        switch_page("Resumo de Produção")
+    if st.button("👶 Nascimentos e Óbitos"):
+        switch_page("Nascimentos e Óbitos")
+    if st.button("🪪 Cartões Espelho"):
+        switch_page("Cartões Espelho")
+    if st.button("📄 Laudos e Receitas"):
+        switch_page("Laudos e Receitas")
+st.markdown("</div>", unsafe_allow_html=True)
 
-# === Rodapé ===
-st.markdown("""
-    </div> <!-- Fecha main-content -->
-
-    <div class="custom-footer">
-        Desenvolvido para uso profissional em saúde
-    </div>
-""", unsafe_allow_html=True)
+# Rodapé fixo
+st.markdown('<div class="footer">Desenvolvido para uso profissional do ACS</div>', unsafe_allow_html=True)
