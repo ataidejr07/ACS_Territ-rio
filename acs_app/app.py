@@ -1,12 +1,10 @@
 import streamlit as st
-from streamlit_extras.switch_page_button import switch_page
 
 st.set_page_config(page_title="ACS Micro Área", layout="wide")
 
 # Estilo e JS para botão hambúrguer
 st.markdown("""
     <style>
-        /* Header fixo */
         .header {
             background-color: #0056b3;
             color: white;
@@ -20,11 +18,7 @@ st.markdown("""
             width: 100%;
             z-index: 1000;
         }
-
-        /* Espaço abaixo do cabeçalho fixo */
         .main {margin-top: 70px;}
-
-        /* Rodapé fixo */
         .footer {
             position: fixed;
             bottom: 0;
@@ -37,8 +31,6 @@ st.markdown("""
             font-size: 14px;
             z-index: 9999;
         }
-
-        /* Estilo dos botões */
         .botao {
             background-color: white;
             padding: 15px;
@@ -50,22 +42,16 @@ st.markdown("""
             font-size: 18px;
             font-weight: bold;
         }
-
-        /* Menu lateral */
         section[data-testid="stSidebar"] {
             background-color: #1e1e1e;
         }
-
         section[data-testid="stSidebar"] .block-container {
             padding: 1rem;
         }
-
         section[data-testid="stSidebar"] a {
             color: white;
             font-weight: bold;
         }
-
-        /* Botão menu flutuante */
         #openSidebar {
             position: fixed;
             top: 12px;
@@ -79,7 +65,6 @@ st.markdown("""
     </style>
 
     <script>
-        // Função para clicar no ícone do menu da Streamlit
         function abrirMenuLateral() {
             let menuButton = window.parent.document.querySelector('button[kind="header"]');
             if (menuButton) {
@@ -89,39 +74,30 @@ st.markdown("""
     </script>
 """, unsafe_allow_html=True)
 
-# Botão hamburguer funcional
 st.markdown('<button id="openSidebar" onclick="abrirMenuLateral()">☰</button>', unsafe_allow_html=True)
-
-# Cabeçalho fixo
 st.markdown('<div class="header">ACS Micro Área</div>', unsafe_allow_html=True)
 
-# Conteúdo principal
 st.markdown('<div class="main">', unsafe_allow_html=True)
 st.markdown("## Bem-vindo, Ataide!")
 st.markdown("### Cadastros")
 
+# Botões com links manuais
+def botao_link(nome, emoji, destino):
+    st.markdown(f'<a href="/{destino}" class="botao">{emoji} {nome}</a>', unsafe_allow_html=True)
+
 col1, col2, col3 = st.columns([1, 6, 1])
 with col2:
-    if st.button("🏠 Domicílios"):
-        switch_page("Domicílios")
-    if st.button("👨‍👩‍👧 Famílias"):
-        switch_page("Famílias")
-    if st.button("🧑‍⚕️ Cidadãos"):
-        switch_page("Cidadãos")
+    botao_link("Domicílios", "🏠", "Domicílios")
+    botao_link("Famílias", "👨‍👩‍👧", "Famílias")
+    botao_link("Cidadãos", "🧑‍⚕️", "Cidadãos")
 
 st.markdown("### Análises e Relatórios")
 with col2:
-    if st.button("📊 Relatórios"):
-        switch_page("Relatórios")
-    if st.button("✅ Resumo de Produção"):
-        switch_page("Resumo de Produção")
-    if st.button("👶 Nascimentos e Óbitos"):
-        switch_page("Nascimentos e Óbitos")
-    if st.button("🪪 Cartões Espelho"):
-        switch_page("Cartões Espelho")
-    if st.button("📄 Laudos e Receitas"):
-        switch_page("Laudos e Receitas")
-st.markdown("</div>", unsafe_allow_html=True)
+    botao_link("Relatórios", "📊", "Relatórios")
+    botao_link("Resumo de Produção", "✅", "Resumo de Produção")
+    botao_link("Nascimentos e Óbitos", "👶", "Nascimentos e Óbitos")
+    botao_link("Cartões Espelho", "🪪", "Cartões Espelho")
+    botao_link("Laudos e Receitas", "📄", "Laudos e Receitas")
 
-# Rodapé fixo
+st.markdown("</div>", unsafe_allow_html=True)
 st.markdown('<div class="footer">Desenvolvido para uso profissional do ACS</div>', unsafe_allow_html=True)
