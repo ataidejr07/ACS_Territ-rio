@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="ACS Micro Área", layout="wide")
 
-# Estilo e botão hambúrguer funcional com JavaScript
+# Estilo e botão hambúrguer com JS robusto
 st.markdown("""
     <style>
         .header {
@@ -69,23 +69,29 @@ st.markdown("""
     </style>
 
     <script>
-        function abrirMenuLateral() {
-            let menuButton = window.parent.document.querySelector('button[kind="header"]');
-            if (menuButton) {
-                menuButton.click();
-            }
-        }
+        const abrirMenu = () => {
+            const iframe = window.parent.document;
+            const botoes = iframe.querySelectorAll('button');
+            botoes.forEach(btn => {
+                if (btn.innerHTML.includes("☰") || btn.getAttribute("aria-label") === "menu") {
+                    btn.click();
+                }
+            });
+        };
     </script>
 """, unsafe_allow_html=True)
 
-st.markdown('<button id="openSidebar" onclick="abrirMenuLateral()">☰</button>', unsafe_allow_html=True)
+# Botão com chamada JavaScript
+st.markdown('<button id="openSidebar" onclick="abrirMenu()">☰</button>', unsafe_allow_html=True)
+
+# Cabeçalho
 st.markdown('<div class="header">ACS Micro Área</div>', unsafe_allow_html=True)
 st.markdown('<div class="main">', unsafe_allow_html=True)
 
+# Conteúdo
 st.markdown("## Bem-vindo, Ataide!")
 st.markdown("### Cadastros")
 
-# Função para criar botões com links manuais
 def botao_link(nome, emoji, destino):
     st.markdown(f'<a href="/{destino}" class="botao">{emoji} {nome}</a>', unsafe_allow_html=True)
 
@@ -104,4 +110,6 @@ with col2:
     botao_link("Laudos e Receitas", "📄", "Laudos e Receitas")
 
 st.markdown("</div>", unsafe_allow_html=True)
+
+# Rodapé
 st.markdown('<div class="footer">Desenvolvido para uso profissional do ACS</div>', unsafe_allow_html=True)
