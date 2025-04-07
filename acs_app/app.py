@@ -1,17 +1,22 @@
 import streamlit as st
 
-# Configuração da página
 st.set_page_config(page_title="ACS Micro Área", layout="wide")
 
-# Estilo CSS customizado
+# CSS atualizado
 st.markdown("""
 <style>
     .main {
         padding: 0 !important;
     }
 
-    /* Cabeçalho (agora normal, não fixo) */
+    /* Oculta o botão nativo do menu lateral do Streamlit */
+    [data-testid="collapsedControl"] {
+        display: none !important;
+    }
+
+    /* Cabeçalho esticado */
     .header {
+        width: 100%;
         background-color: #0056b3;
         color: white;
         padding: 12px 16px;
@@ -19,13 +24,14 @@ st.markdown("""
         font-weight: bold;
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: flex-start;
         border-bottom: 2px solid #003b80;
         box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-        border-radius: 0 0 10px 10px;
+        border-radius: 0;
+        margin: 0;
     }
 
-    /* Botão de menu com sombra e profundidade */
+    /* Botão de menu à esquerda do título */
     .menu-button {
         background-color: #003d80;
         color: white;
@@ -34,6 +40,7 @@ st.markdown("""
         font-size: 20px;
         border-radius: 8px;
         cursor: pointer;
+        margin-right: 14px;
         box-shadow: 2px 2px 6px rgba(0,0,0,0.4);
     }
 
@@ -65,7 +72,7 @@ st.markdown("""
         font-weight: bold;
         text-align: left;
         background-color: #ffffff;
-        color: #000000; /* Corrigido para tema escuro */
+        color: #000000;
         border: 2px solid #ccc;
         border-radius: 10px;
         transition: 0.3s;
@@ -120,11 +127,11 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Cabeçalho com menu
+# Cabeçalho com botão do menu na esquerda
 st.markdown("""
 <div class="header">
-    <span>ACS Micro Área</span>
     <button class="menu-button" onclick="document.querySelector('.sidebar-container').classList.toggle('menu-visible')">☰</button>
+    <span>ACS Micro Área</span>
 </div>
 <div class="sidebar-container">
     <button class="sidebar-button">🗂️ Cartões Espelho</button>
@@ -148,5 +155,5 @@ st.markdown('<button class="custom-button">👶⚰️ Nascimentos e Óbitos</but
 
 st.markdown('</div>', unsafe_allow_html=True)
 
-# Rodapé
+# Rodapé fixo
 st.markdown('<div class="footer">Desenvolvido para ACS</div>', unsafe_allow_html=True)
