@@ -10,12 +10,8 @@ st.set_page_config(
 # Estilos personalizados
 st.markdown("""
     <style>
-        /* Remover margem padrão no topo */
-        .block-container {
-            padding-top: 0rem;
-        }
+        .block-container { padding-top: 0rem; }
 
-        /* Cabeçalho azul fixo */
         .custom-header {
             background-color: #1976D2;
             padding: 0.8rem 1rem;
@@ -50,7 +46,6 @@ st.markdown("""
             background-color: #0D47A1;
         }
 
-        /* Estilo dos botões principais */
         .main-button {
             display: inline-block;
             background-color: #2196F3;
@@ -70,7 +65,6 @@ st.markdown("""
             text-decoration: none;
         }
 
-        /* Rodapé fixo */
         .footer {
             background-color: #1976D2;
             padding: 0.6rem;
@@ -82,7 +76,6 @@ st.markdown("""
             z-index: 100;
         }
 
-        /* Ajuste de espaçamento no conteúdo para não ficar atrás do cabeçalho */
         .main-content {
             margin-top: 4.5rem;
             margin-bottom: 3rem;
@@ -90,14 +83,21 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Cabeçalho com botão hambúrguer funcional
+# Cabeçalho com botão hambúrguer funcional com script robusto
 st.markdown("""
     <div class="custom-header">
-        <button class="menu-button" onclick="document.querySelector('button[kind=headerNav]').click();">
-            &#9776;
-        </button>
+        <button class="menu-button" onclick="openMenu()">&#9776;</button>
         <h1>ACS Micro Área</h1>
     </div>
+
+    <script>
+        function openMenu() {
+            const sidebarToggle = window.parent.document.querySelector('button[title="Main menu"]');
+            if (sidebarToggle) {
+                sidebarToggle.click();
+            }
+        }
+    </script>
 """, unsafe_allow_html=True)
 
 # Conteúdo principal
@@ -121,5 +121,5 @@ with col3:
 
 st.markdown('</div>', unsafe_allow_html=True)
 
-# Rodapé
+# Rodapé fixo
 st.markdown('<div class="footer">Desenvolvido para uso do ACS</div>', unsafe_allow_html=True)
