@@ -6,29 +6,26 @@ st.set_page_config(page_title="ACS Micro Área", layout="wide")
 # Estilo CSS customizado
 st.markdown("""
 <style>
-    /* Zera margens padrão */
     .main {
         padding: 0 !important;
     }
 
-    /* Cabeçalho fixo */
+    /* Cabeçalho (agora normal, não fixo) */
     .header {
         background-color: #0056b3;
         color: white;
-        padding: 10px 16px;
-        font-size: 20px;
+        padding: 12px 16px;
+        font-size: 22px;
         font-weight: bold;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        z-index: 9999;
         display: flex;
         align-items: center;
         justify-content: space-between;
+        border-bottom: 2px solid #003b80;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        border-radius: 0 0 10px 10px;
     }
 
-    /* Botão do menu */
+    /* Botão de menu com sombra e profundidade */
     .menu-button {
         background-color: #003d80;
         color: white;
@@ -37,17 +34,15 @@ st.markdown("""
         font-size: 20px;
         border-radius: 8px;
         cursor: pointer;
-        box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+        box-shadow: 2px 2px 6px rgba(0,0,0,0.4);
     }
 
-    /* Container do conteúdo principal */
     .content {
-        margin-top: 70px;
+        margin-top: 20px;
         margin-bottom: 60px;
         padding: 0 16px;
     }
 
-    /* Rodapé fixo */
     .footer {
         background-color: #0056b3;
         color: white;
@@ -61,7 +56,6 @@ st.markdown("""
         z-index: 9999;
     }
 
-    /* Estilo dos botões principais */
     .custom-button {
         display: block;
         width: 100%;
@@ -71,6 +65,7 @@ st.markdown("""
         font-weight: bold;
         text-align: left;
         background-color: #ffffff;
+        color: #000000; /* Corrigido para tema escuro */
         border: 2px solid #ccc;
         border-radius: 10px;
         transition: 0.3s;
@@ -80,7 +75,6 @@ st.markdown("""
         background-color: #f0f0f0;
     }
 
-    /* Menu lateral personalizado */
     .sidebar-container {
         position: fixed;
         top: 60px;
@@ -113,7 +107,6 @@ st.markdown("""
         background-color: #333;
     }
 
-    /* Ajuste de responsividade */
     @media (max-width: 768px) {
         .custom-button {
             font-size: 16px;
@@ -127,19 +120,17 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Script para o menu lateral (requer streamlit_javascript se quiser usar JS no futuro)
-menu_html = """
+# Cabeçalho com menu
+st.markdown("""
 <div class="header">
     <span>ACS Micro Área</span>
     <button class="menu-button" onclick="document.querySelector('.sidebar-container').classList.toggle('menu-visible')">☰</button>
 </div>
-
 <div class="sidebar-container">
     <button class="sidebar-button">🗂️ Cartões Espelho</button>
     <button class="sidebar-button">📄 Laudos e Receitas</button>
 </div>
-"""
-st.markdown(menu_html, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
 # Conteúdo principal
 st.markdown('<div class="content">', unsafe_allow_html=True)
