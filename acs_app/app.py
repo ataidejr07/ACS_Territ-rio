@@ -56,16 +56,17 @@ st.markdown("""
 st.markdown('<header>ACS Micro Área</header>', unsafe_allow_html=True)
 st.markdown('<div style="height:60px;"></div>', unsafe_allow_html=True)  # Espaço abaixo do cabeçalho
 
-# Menu lateral com efeito
+# Menu lateral com "Página Inicial"
 with st.sidebar:
     st.markdown("### Menu")
     menu = option_menu(
         menu_title=None,
         options=[
+            "Página Inicial",
             "Cartões Espelho",
             "Laudos e Receitas"
         ],
-        icons=["card-text", "file-earmark-medical"],
+        icons=["house", "card-text", "file-earmark-medical"],
         menu_icon="cast",
         default_index=0,
         styles={
@@ -76,12 +77,12 @@ with st.sidebar:
         }
     )
 
-    if menu == "Cartões Espelho":
-        st.switch_page("pages/7_Cartões_Espelho.py")
-    elif menu == "Laudos e Receitas":
-        st.switch_page("pages/8_Laudos_Receitas.py")
+if menu == "Cartões Espelho":
+    st.switch_page("pages/7_Cartões_Espelho.py")
+elif menu == "Laudos e Receitas":
+    st.switch_page("pages/8_Laudos_Receitas.py")
 
-# Botões principais
+# Conteúdo da Página Inicial
 st.markdown("### Acesse uma das seções do aplicativo:")
 col1, col2 = st.columns(2)
 
