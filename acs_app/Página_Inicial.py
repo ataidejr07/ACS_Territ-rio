@@ -1,132 +1,105 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
-import base64
 
-st.set_page_config(layout="wide")
+st.set_page_config(page_title="ACS Micro Área", layout="wide")
 
-# ======== ESTILOS PERSONALIZADOS ========
+# --- Estilo personalizado ---
 st.markdown("""
     <style>
-        /* Cabeçalho fixo */
-        .header {
-            background-color: #0056b3;
-            padding: 10px 20px;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 999;
-            display: flex;
-            align-items: center;
+        .block-container {
+            padding-top: 0rem;
+            padding-bottom: 0rem;
         }
-
-        .header h1 {
+        .css-18e3th9 {
+            padding-top: 2rem;
+        }
+        .css-1d391kg {
+            padding-top: 2rem;
+        }
+        header {
+            background-color: #007BFF;
+            padding: 10px 16px;
             color: white;
-            font-size: 20px;
-            margin: 0;
-            padding-left: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 999;
         }
-
-        /* Rodapé fixo */
-        .footer {
+        footer {
+            background-color: #007BFF;
+            padding: 8px;
             position: fixed;
             bottom: 0;
+            left: 0;
             width: 100%;
-            background-color: #0056b3;
-            color: white;
             text-align: center;
-            padding: 10px;
-            font-size: 12px;
-            z-index: 999;
+            color: white;
         }
-
-        /* Conteúdo com padding para não ficar atrás do cabeçalho e rodapé */
-        .main-content {
-            padding-top: 70px;
-            padding-bottom: 60px;
-        }
-
-        /* Botões principais */
-        .main-button {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            background-color: white;
-            border-radius: 15px;
-            font-size: 18px;
+        .stButton > button {
+            background-color: #e0e0e0;
             color: black;
+            font-weight: bold;
+            border-radius: 8px;
+            padding: 0.5em 1em;
+            margin: 0.3em;
             text-decoration: none;
-            border: none;
-            margin-bottom: 15px;
-            text-align: left;
         }
-
-        .main-button:hover {
-            background-color: #e6e6e6;
-        }
-
-        /* Menu lateral */
-        .sidebar .sidebar-content {
-            background-color: #333;
-        }
-
-        .css-1d391kg, .css-1d391kg:hover {
-            color: white !important;
+        .stButton > button:hover {
+            background-color: #d0d0d0;
         }
     </style>
 """, unsafe_allow_html=True)
 
-# ======== CABEÇALHO FIXO ========
-st.markdown("""
-    <div class="header">
-        <span style="font-size: 24px;">☰</span>
-        <h1>ACS Micro Área</h1>
-    </div>
-""", unsafe_allow_html=True)
+st.markdown('<header>ACS Micro Área</header>', unsafe_allow_html=True)
+st.markdown('<div style="height:60px;"></div>', unsafe_allow_html=True)  # Espaço abaixo do cabeçalho
 
-# ======== CONTEÚDO PRINCIPAL ========
-st.markdown('<div class="main-content">', unsafe_allow_html=True)
+# Menu lateral com efeito
+with st.sidebar:
+    st.markdown("### Menu")
+    menu = option_menu(
+        menu_title=None,
+        options=[
+            "Cartões Espelho",
+            "Laudos e Receitas"
+        ],
+        icons=["card-text", "file-earmark-medical"],
+        menu_icon="cast",
+        default_index=0,
+        styles={
+            "container": {"background-color": "#343a40", "padding": "5px"},
+            "icon": {"color": "white", "font-size": "20px"},
+            "nav-link": {"color": "white", "font-size": "16px", "text-align": "left"},
+            "nav-link-selected": {"background-color": "#007BFF"},
+        }
+    )
 
-st.markdown("## Bem-vindo, Ataide!")
-st.markdown("### Cadastros")
+    if menu == "Cartões Espelho":
+        st.switch_page("pages/7_Cartões_Espelho.py")
+    elif menu == "Laudos e Receitas":
+        st.switch_page("pages/8_Laudos_Receitas.py")
 
-col1, col2 = st.columns([1, 1])
+# Botões principais
+st.markdown("### Acesse uma das seções do aplicativo:")
+col1, col2 = st.columns(2)
 
 with col1:
-    if st.button("🏠 Domicílios", key="dom", help="Abrir página de Domicílios", use_container_width=True):
+    if st.button("Domicílios"):
         st.switch_page("pages/1_Domicílios.py")
-    if st.button("👨‍👩‍👧 Famílias", key="fam", use_container_width=True):
-        st.switch_page("pages/2_Famílias.py")
-    if st.button("🧒 Cidadãos", key="cid", use_container_width=True):
+    if st.button("Cidadãos"):
         st.switch_page("pages/3_Cidadãos.py")
+    if st.button("Resumo de Produção"):
+        st.switch_page("pages/5_Resumo_de_Produção.py")
+    if st.button("Nascimentos e Óbitos"):
+        st.switch_page("pages/6_Nascimentos_e_Óbitos.py")
 
 with col2:
-    st.markdown("### Análises e Relatórios")
-    if st.button("📊 Relatórios", key="rel", use_container_width=True):
+    if st.button("Famílias"):
+        st.switch_page("pages/2_Famílias.py")
+    if st.button("Relatórios"):
         st.switch_page("pages/4_Relatórios.py")
-    if st.button("✅ Resumo de Produção", key="res", use_container_width=True):
-        st.switch_page("pages/5_Resumo_de_Produção.py")
 
-# ======== MENU LATERAL CUSTOMIZADO ========
-with st.sidebar:
-    selected = option_menu("Menu", ["Cartões Espelho", "Laudos e Receitas"],
-                           icons=["card-text", "file-earmark-medical"],
-                           menu_icon="list", default_index=0,
-                           styles={
-                               "container": {"background-color": "#333"},
-                               "icon": {"color": "white", "font-size": "20px"},
-                               "nav-link": {"color": "white", "font-size": "16px", "text-align": "left", "margin": "5px"},
-                               "nav-link-selected": {"background-color": "#0056b3"}
-                           })
-
-    if selected == "Cartões Espelho":
-        st.switch_page("pages/6_Cartões_Espelho.py")
-    elif selected == "Laudos e Receitas":
-        st.switch_page("pages/7_Laudos_e_Receitas.py")
-
-# ======== RODAPÉ FIXO ========
-st.markdown("""
-    </div> <!-- Fecha main-content -->
-    <div class="footer">
-        Desenvolvido para uso profissional em campo — ACS Micro Área
-    </div>
-""", unsafe_allow_html=True)
+# Rodapé fixo
+st.markdown('<footer>Desenvolvido para uso em campo por ACS</footer>', unsafe_allow_html=True)
